@@ -1,0 +1,100 @@
+{% extends 'index.html' %}
+
+{% block content %}
+
+
+
+{% if error %}
+  <div class="alert alert-danger" role="alert">
+    {{error}}
+  </div>
+  {% endif %}
+<div class="container-fluid">
+  <form method="POST" action="{% url 'add_to_datatable' %}">
+    {% csrf_token  %}
+    Description:
+    <br>
+    <input class="form-control" type="textbox" name="description" />
+    <br>
+    Rupees:
+    <br>
+    <input class="form-control" type="number" name="rupees" />
+    <br>
+    
+    <label for="sel1">Credit/Debit:</label>
+      <select class="form-control" id="sel1" name="credit_or_debit">
+        <option value="credit">Credit</option>
+        <option value="debit">Debit</option>
+      </select>
+      <br>
+    <label for="sel2">Used For:</label>
+      <select class="form-control" id="sel2" name="used_for">
+        <option value="household">Household</option>
+        <option value="personal">Personal</option>
+      </select>
+      <br>
+    <label for="sel3">Money Source:</label>
+      <select class="form-control" id="sel3" name="money_source">
+        <option value="khata">Khata</option>
+        <option value="own">Own</option>
+      </select>
+    <br>
+    <label for="date_id">Date:</label>
+    <input id="date_id" type="date" oninput="join_datetime();" onpaste="join_datetime();">
+    <!-- <a onclick="dateNow(date_id)" href="#">SET DATE</a> -->
+    <br><br>
+    <label for="time_id">Time:</label>
+    <input id="time_id" type="time" oninput="join_datetime();" onpaste="join_datetime();">
+    <!-- <a onclick="timeNow(time_id)" href="#">SET TIME</a> -->
+
+    <br><br>
+    
+    <input class="btn btn-primary" type="submit" value="Add Item" />
+    <a href="{% url 'usertable' %}" class="btn btn-danger">Cancel</a>
+    <input id="datetime" type="hidden" name="pub_datetime" value="" />
+    <br><br>
+  </form>
+
+
+  
+
+  <!-- <input id="date_id" type="date" oninput="join_datetime();" onpaste="join_datetime();">
+  <input id="time_id" type="time" oninput="join_datetime();" onpaste="join_datetime();"> -->
+  
+  
+  
+  <script type="text/javascript">
+    function join_datetime()
+    {
+        var dd = document.getElementById('date_id').value;
+        var tt = document.getElementById('time_id').value;
+        
+        document.getElementById('datetime').value = dd+" "+tt;
+    }
+  </script>
+
+
+  <!-- JS for generating current Date and Time -->
+  <script type="text/javascript">
+    function timeNow(i) {
+      var d = new Date(),
+          h = (d.getHours()<10?'0':'') + d.getHours(),
+          m = (d.getMinutes()<10?'0':'') + d.getMinutes();
+      i.value = h + ':' + m;
+    }
+    function dateNow(i) {
+      var date = new Date();
+
+      var day = date.getDate();
+      var month = date.getMonth() + 1;
+      var year = date.getFullYear();
+
+      if (month < 10) month = "0" + month;
+      if (day < 10) day = "0" + day;
+
+      i.value = year + "-" + month + "-" + day;
+    }
+  </script>
+
+<br>
+{% endblock %}

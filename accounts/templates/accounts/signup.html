@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+    <title>signup</title>
+</head>
+
+<body>
+
+<div align="center" style="padding-top:5%;" >
+    {% if error %}
+    <bcolors style="color:red;">{{ error }}</bcolors>
+    {% endif %}
+    <div class="col-sm-4" style="background-color:#d7d8d4;">
+        <form method="post" action="{% url 'signup' %}" class="form-signin" enctype="multipart/form-data">
+            {% csrf_token %}
+            <br />
+            <h1 class="h3 mb-3 font-weight-normal">Sign Up</h1>
+            <input type="text" name="username"  class="form-control col-sm-10" placeholder="Username" required autofocus>
+            <br />
+            <input type="text" name="first_name"  class="form-control col-sm-10" placeholder="First Name" required>
+            <br />
+            <input type="text" name="last_name"  class="form-control col-sm-10" placeholder="Last Name" required>
+            <br />
+            <input type="password"name="password1" class="form-control col-sm-10" placeholder="Password" required>
+            <br />
+            <input type="password" name="password2" class="form-control col-sm-10" placeholder="Confirm Password" required>
+            <div class="row">
+                <div class="col-8">
+                    Profile Picture:<span style="color:red;">*optional</span>
+                </div>
+            </div>
+            <input type="file" name="image" class="form-control col-sm-10">
+            <br />
+            <button class="btn btn-lg btn-primary btn-block col-sm-5" type="submit">Sign Up</button>
+            <br />
+        </form>
+    </div>
+    <p>Already Have an account? <a  href="{% url 'login' %}">Login</a> Here</p>
+</div>
+
+<!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+
+
+</body>
+</html>

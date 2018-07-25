@@ -1,0 +1,144 @@
+{% extends 'index.html' %}
+
+{% block content %}
+
+<section class="content">
+        {% if error %}
+        <bcolors style="color:red;">{{ error }}</bcolors>
+        {% else %}
+            {% for message in messages %}
+            <bcolors style="color:green;">{{message}}</bcolors>
+            {% endfor %}
+        {% endif %}
+    <div class="row">
+      <div class="col-md-12">
+
+        <!-- Profile Image -->
+        <div class="box box-primary">
+          <div class="box-body box-profile">
+            <img class="profile-user-img img-responsive img-circle" src="{{ info.user_image.url }}" alt="User profile picture">
+
+            <h3 class="profile-username text-center">{{ user.username }}</h3>
+
+            
+
+            <ul class="list-group list-group-unbordered">
+              <li class="list-group-item">
+                    <div class="row">
+                            <div class="col-md-9">
+                                <form method="POST" action="{% url 'update' %}" id="form1" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    Full Name :  
+                                    <span>
+                                        <input type="text" id="firstname" name="fname" class="form-control" placeholder="FirstName"><br>
+                                        <input type="text" id="lastname" name="lname" class="form-control" placeholder="LasttName">
+                                    </span>
+                                    <hr />
+                                    Password : ********<hr />
+                                    Current Password: <span><input type="password" name="cp" id="cp" class="form-control"></span><hr />
+                                    New Password: <span><input type="password" name="np1" id="np1" class="form-control"></span> <hr />
+                                    Verify Password: <span><input type="password" name="np2" id="np2" class="form-control"></span> <hr />
+                                    <br />
+                                    Profile Picture:
+                                    <!-- <img id="blah" src="#" width="200" height="200" alt="No image" /> -->
+                                    <br />
+                                    <input type="file" id="imgInp" name="image"/>
+                                    <img class="profile-user-img img-responsive" id="blah" src="#" width="200" height="200" alt="No image">
+                                    <br />
+                                    <br />
+                                    <input class="btn btn-success" type="submit" value="Save Changes">
+                                </form>
+                            </div>
+                            <div class="col-md-3">
+                                <br />
+                                <button onclick="nameChange()" class="btn btn-primary">Change Fullname</button>
+                                <button onclick="nameUndo()" class="btn btn-danger">Undo</button>
+                                <br />
+                                <br />
+                                <br />
+                                <br />
+                                <br />
+                                <button onclick="pc()" class="btn btn-primary">Change Password</button>
+                                <button onclick="pUndo()" class="btn btn-danger">Undo</button>
+                            </div>
+                    </div>                
+              </li>
+            </ul>
+          </div>
+          <!-- /.box-body -->
+        </div>
+    </div>
+</div>
+</section>
+
+
+
+
+  
+
+<script>
+    window.onload = function Function2() {
+        document.getElementById("blah").src = "{{info.user_image.url}}";
+        
+
+        document.getElementById("firstname").disabled = true;
+        document.getElementById("firstname").value= "{{user.first_name}}";
+        document.getElementById("lastname").disabled = true;
+        document.getElementById("lastname").value= "{{user.last_name}}";
+
+        document.getElementById("cp").disabled = true;
+        document.getElementById("np1").disabled = true;
+        document.getElementById("np2").disabled = true;
+        document.getElementById("cp").value= "def";
+        document.getElementById("np1").value= "def1";
+        document.getElementById("np2").value= "def2";
+    }
+    function nameChange() {
+        document.getElementById("firstname").disabled = false;
+        document.getElementById("firstname").value= "";
+        document.getElementById("lastname").disabled = false;
+        document.getElementById("lastname").value= "";
+    }
+    function nameUndo() {
+        document.getElementById("firstname").disabled = true;
+        document.getElementById("firstname").value= "{{user.first_name}}";
+        document.getElementById("lastname").disabled = true;
+        document.getElementById("lastname").value= "{{user.last_name}}";
+    }
+    function pc() {
+        document.getElementById("cp").disabled = false;
+        document.getElementById("np1").disabled = false;
+        document.getElementById("np2").disabled = false;
+        document.getElementById("cp").value= "";
+        document.getElementById("np1").value= "";
+        document.getElementById("np2").value= "";
+    }
+    function pUndo() {
+        document.getElementById("cp").disabled = true;
+        document.getElementById("np1").disabled = true;
+        document.getElementById("np2").disabled = true;
+        document.getElementById("cp").value= "def";
+        document.getElementById("np1").value= "def1";
+        document.getElementById("np2").value= "def2";
+    }
+</script>
+<script>
+    function readURL(input) {
+
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+      
+            reader.onload = function(e) {
+                $('#blah').attr('src', e.target.result);
+            }
+      
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+      
+    $("#imgInp").change(function() {
+        readURL(this);
+    });
+</script>
+
+{% endblock %}

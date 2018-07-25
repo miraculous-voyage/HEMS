@@ -1,0 +1,101 @@
+{% extends 'index.html' %}
+
+{% block content %}
+
+{% if error %}
+<div class="alert alert-danger" role="alert">
+    {{error}}
+</div>
+{% endif %}
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            {% if request.user.username == item.hunter.username %}
+            <button class="btn btn-primary" value="Edit" id="edit_form" onclick="enableElements()">Edit</button>
+            <script>
+                function enableElements() {
+                    document.getElementById("description_id").disabled = false;
+                    document.getElementById("rupees_id").disabled = false;
+
+                    document.getElementById("save_changes").disabled = false;
+            }
+            </script>
+            {% else %}
+            <div class="alert alert-danger" role="alert">
+                    You cannot Edit file data!!!
+                </div>
+            {% endif%}
+          
+            <form method="POST" action="{% url 'datatable_detail' item.id %}">
+                {% csrf_token %}
+                Description:
+                <br>
+                <input class="form-control" type="textbox" name="description" value="{{ item.description }}" id="description_id" disabled="true"/>
+                <br>
+                Rupees:
+                <br>  
+                <input class="form-control" type="number" name="rupees" value="{{ item.rupees }}" id="rupees_id" disabled="true" />
+                <br>
+                Credit/Debit:
+                <br>
+                <input class="form-control" type="textbox" value="{{ item.credit_or_debit }}" id="credit_or_debit_id" disabled="true" />
+                <!-- <select class="form-control" id="sel_credit_or_debit" name="credit_or_debit" hidden="true">
+                    {% if item.credit_or_debit == 'credit' %}
+                        <option value="credit">Credit</option>
+                        <option value="debit">Debit</option>
+                    {% else %}
+                        <option value="debit">Debit</option>
+                        <option value="credit">Credit</option>
+                    {% endif %}
+                </select> -->
+                <br>
+                Used For:                
+                <br>
+                <input class="form-control" type="textbox" value="{{ item.used_for }}" id="used_for_id" disabled="true" />
+                <!-- <select class="form-control" id="sel_used_for" name="used_for" hidden="true" >
+                    {% if item.used_for == 'household' %}
+                        <option value="household">Household</option>
+                        <option value="personal">Personal</option>
+                    {% else %}
+                        <option value="personal">Personal</option>
+                        <option value="household">Household</option>
+                    {% endif %}
+                </select> -->
+                <br>
+                Money Source:
+                <br>
+                <input class="form-control" type="textbox" value="{{ item.money_source }}" id="money_source_id" disabled="true" />
+                <!-- <select class="form-control" id="sel_money_source" name="money_source" hidden="true" >
+                    {% if item.money_source == 'khata' %}
+                        <option value="khata">Khata</option>
+                        <option value="own">Own</option>
+                    {% else %}
+                        <option value="own">Own</option>
+                        <option value="khata">Khata</option>
+                    {% endif %}
+                </select> -->
+                
+                <br>
+                Published Date:
+                <br>
+                <input class="form-control" type="textbox" value="{{ item.pub_datetime }}" id="pub_datetime_id" disabled="true" />
+                <br>
+                <p>Added By: {{ item.hunter.username }}</p>            
+                <input type="submit" class="btn btn-success" value="Save" id="save_changes" disabled="true">
+                <br>
+            </form>
+            
+        </div>
+        
+        <div class="col-6">
+            
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+{% endblock %}

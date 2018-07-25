@@ -1,0 +1,60 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<a href="{% url 'add_to_datatable' %}" class="btn btn-primary">Add Item</a>
+<div class="box">
+        <div class="box-header">
+            <h3 class="box-title">UserTable</h3>
+        </div>
+            
+        <div class="box-body">
+                <div style="overflow-x:auto;">
+                        <table id="userTable" class="table table-striped table-bordered">
+                          <thead>
+                                  <tr>
+                                          <th>T. ID</th>
+                                          <th>DateTime</th>
+                                          <th>Description</th>        
+                                          <th>Debit</th>
+                                          <th>Credit</th>
+                                  </tr>       
+                          </thead>
+                          <tbody>
+                      
+                          
+                          {% for item in items.all %}
+                          {% if user_info.username == item.hunter.username %}
+                          <tr>
+                              <td>{{ item.id }}</td>
+                              <td>{{ item.pub_datetime }}</td>
+                              <td><a href="{% url 'datatable_detail' item.id %}">{{ item.description }}</a></td>      
+                              
+                      
+                              {% if item.credit_or_debit == 'debit' %}
+                                  <td>{{ item.rupees }}</td>
+                              {% else %}
+                                  <td>-</td>
+                              {% endif %}
+                      
+                              {% if item.credit_or_debit == 'credit' %}
+                                  <td>{{ item.rupees }}</td>
+                              {% else %}
+                                  <td>-</td>
+                              {% endif %}    
+                          </tr>
+                          {% endif%}
+                          {% endfor %}
+                          </tbody>
+                        </table>
+                        <script type="text/javascript">
+                            $(document).ready( function () {
+                                $('#userTable').DataTable();
+                            } );
+                        </script>
+                      </div>
+        </div>
+</div>
+
+
+
+{% endblock %}
